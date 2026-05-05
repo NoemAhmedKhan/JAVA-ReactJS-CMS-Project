@@ -1,0 +1,59 @@
+/* === FEATURES === */
+.features {
+  background: var(--gray-100);
+  padding: 100px 24px;
+}
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-body); font-size: .78rem; font-weight: 700;
+  color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 900; color: var(--dark);
+  margin-bottom: 14px; line-height: 1.2;
+}
+.section-sub { font-size: 1rem; color: var(--gray-600); max-width: 520px; margin: 0 auto; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.feature-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition);
+  animation: fadeUp .6s ease var(--delay) both;
+  position: relative; overflow: hidden;
+}
+.feature-card::before {
+  content: ''; position: absolute;
+  inset: 0; border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(225,112,85,.04), transparent);
+  opacity: 0; transition: opacity var(--transition);
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(225,112,85,.2); }
+.feature-card:hover::before { opacity: 1; }
+.feature-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 14px rgba(225,112,85,.3);
+  transition: transform var(--transition);
+}
+.feature-card:hover .feature-icon { transform: scale(1.08) rotate(-4deg); }
+.feature-card h3 {
+  font-family: var(--font-head); font-size: 1.1rem; font-weight: 700;
+  color: var(--dark); margin-bottom: 10px;
+}
+.feature-card p { font-size: .92rem; color: var(--gray-600); line-height: 1.65; }

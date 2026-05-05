@@ -1,0 +1,41 @@
+:root {
+  --primary:   #e17055;
+  --secondary: #ff7675;
+  --accent:    #fab1a0;
+  --dark:      #2d3436;
+  --light:     #ecf0f1;
+  --white:     #ffffff;
+  --gray-100:  #f8f9fa;
+  --gray-200:  #e9ecef;
+  --gray-400:  #adb5bd;
+  --gray-600:  #6c757d;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.08);
+  --shadow-md: 0 8px 32px rgba(0,0,0,.12);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.15);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --transition: .3s cubic-bezier(.4,0,.2,1);
+  --font-head: 'Roboto', sans-serif;
+  --font-body: 'Lato', sans-serif;
+  --font-btn:  'Rubik', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--dark);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; }
+
+@keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,30px)} }
+@keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-40px)} }
+@keyframes float3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,20px)} }
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
