@@ -1,0 +1,28 @@
+/* SECTION */
+.auth-right {
+  flex: 1; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  padding: 44px 48px;
+  overflow-y: auto;
+}
+.auth-card { width: 100%; max-width: 460px; animation: cardIn .55s ease both; }
+
+/* Auth tag */
+.auth-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-body); font-size: .76rem; font-weight: 700;
+  color: var(--secondary);
+  background: rgba(255,118,117,.08);
+  border: 1px solid rgba(255,118,117,.2);
+  padding: 5px 12px; border-radius: 99px;
+  margin-bottom: 20px;
+  text-transform: uppercase; letter-spacing: .6px;
+}
+
+/* Card header */
+.auth-card-header { margin-bottom: 26px; }
+.auth-card-header h1 {
+  font-family: var(--font-head); font-size: 1.6rem; font-weight: 900;
+  color: var(--dark); margin-bottom: 6px; line-height: 1.2;
+}
+.auth-card-header p { font-size: .88rem; color: var(--gray-600); }

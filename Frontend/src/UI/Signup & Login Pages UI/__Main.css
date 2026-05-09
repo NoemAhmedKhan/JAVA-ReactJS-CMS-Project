@@ -1,0 +1,11 @@
+/* ── MAIN LAYOUT ── */
+.auth-main {
+  position: relative; z-index: 1;
+  flex: 1;
+  display: flex; align-items: stretch;
+  max-width: 1100px; margin: 36px auto;
+  width: calc(100% - 48px);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}

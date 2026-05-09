@@ -1,0 +1,34 @@
+/* HEADER */
+.auth-header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 66px;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(225,112,85,.1);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-body);
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 16px;
+  box-shadow: 0 3px 10px rgba(225,112,85,.3);
+  transition: transform var(--t);
+}
+.logo:hover .logo-icon { transform: rotate(-5deg) scale(1.06); }
+.logo-text {
+  font-family: var(--font-head);
+  font-size: 1.25rem; font-weight: 900; color: var(--dark);
+  letter-spacing: -.4px;
+}
+.logo-accent { color: var(--primary); }
+.header-switch {
+  font-size: .88rem; color: var(--gray-600);
+  transition: color var(--t); cursor: pointer;
+}
+.header-switch strong { color: var(--primary); font-weight: 700; }
+.header-switch:hover { color: var(--dark); }

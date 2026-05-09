@@ -1,18 +1,7 @@
-import { useState } from 'react'
-import Header from './Header'
-import About from './About'
-import Features from './Features';
-import Footer from './Footer'
+import HomePage from "./UI/Home Page UI/HomePage";
 
 const App = () => {
-  return (
-    <div>
-    <Header />
-    <About />
-    <Features />
-    <Footer />
-    </div>
-  );
+  return <HomePage />
 }
 
 export default App

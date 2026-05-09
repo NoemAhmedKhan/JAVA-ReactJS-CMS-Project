@@ -1,13 +1,12 @@
 import './About.css';
+import { useNavigate } from "react-router-dom";
 
 const About = () => {
+
+  const navigate = useNavigate();
+
   return (
     <section className="hero" id="about">
-      <div className="hero-bg-shapes">
-        <div className="shape shape-1"></div>
-        <div className="shape shape-2"></div>
-        <div className="shape shape-3"></div>
-      </div>
       <div className="hero-content">
         <h1 className="hero-title">
           Your Contacts,
@@ -19,19 +18,18 @@ const About = () => {
           all of your relationships.
         </p>
         <div className="hero-cta">
-          <a href="signup.html" className="btn-primary">
+          <button type='button' className="btn-primary" onClick={ () => { navigate('/signup') }}>
             <span>Start for Free</span>
             <i className="fas fa-arrow-right"></i>
-          </a>
-          <a href="login.html" className="btn-ghost">
+          </button>
+          <button type='button' className="btn-ghost" onClick={ () => { navigate('/login') }}>
             <i className="fas fa-sign-in-alt"></i>
             <span>Sign In</span>
-          </a>
+          </button>
         </div>
       </div>
     </section>
   );
 };
-
 
 export default About
