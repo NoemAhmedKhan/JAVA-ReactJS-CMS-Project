@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./__SignupForm.css";
 
-const __SignupForm = () => {
+const SignupForm = () => {
 
   const navigate = useNavigate();
 
@@ -129,4 +129,4 @@ const __SignupForm = () => {
             );
 };
 
-export default __SignupForm;
+export default SignupForm;

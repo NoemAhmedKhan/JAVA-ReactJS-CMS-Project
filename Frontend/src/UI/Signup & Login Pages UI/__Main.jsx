@@ -6,7 +6,7 @@ const __Main = (props) => {
   return (
     <div className="auth-main">
     <__LeftPanel props={props}/>
-    <__RightPanel props={props}/>
+    <__RightPanel props={props} />
     </div>
   );
 };

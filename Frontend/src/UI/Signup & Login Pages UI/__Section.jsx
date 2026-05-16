@@ -1,23 +1,23 @@
 import "./__Section.css";
-import __SignupForm from './__SignupForm'
-import __LoginForm from "./__LoginForm";
+import SignupForm from './SignupForm'
+import LoginForm from "./LoginForm";
 
 const __Section = (props) => {
   return (
         <section className="auth-right">
           <div className="auth-card">
             <div className="auth-tag">
-              <i className={props.props.rightPanelIcon}></i>
-              <span>{props.props.rightPanelText}</span>
+              <i className={props.icon}></i>
+              <span>{props.text}</span>
             </div>
 
             <div className="auth-card-header">
-              <h1>{props.props.rightPanelHead}</h1>
-              <p>{props.props.rightPanelPara}</p>
+              <h1>{props.head}</h1>
+              <p>{props.para}</p>
             </div>
-        </div>
 
-        (props.props.auth === "Signup")? <__SignupForm />: <__LoginForm />
+        {props.auth === "signup"? <SignupForm />: <LoginForm />}
+        </div>
 </section>
               );
 };

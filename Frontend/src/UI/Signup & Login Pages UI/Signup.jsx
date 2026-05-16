@@ -8,7 +8,7 @@ const Signup = () => {
 
 <__Header auth="Sign Up"/>
 <__Main 
-auth="Signup"
+auth="signup"
 leftPanelIcon="fas fa-users" 
 leftPanelHead="Start for free." 
 leftPanelPara="Join ContactHub to manage your contacts in smarter way."

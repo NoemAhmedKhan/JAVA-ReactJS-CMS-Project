@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./__LoginForm.css";
 
-const __LoginForm = () => {
+const LoginForm = () => {
 
   const navigate = useNavigate();
 
@@ -99,4 +99,4 @@ const __LoginForm = () => {
   );
 };
 
-export default __LoginForm;
+export default LoginForm;

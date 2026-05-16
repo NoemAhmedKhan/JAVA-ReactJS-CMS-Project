@@ -16,8 +16,17 @@ const __Header = (props) => {
           </span>
         </div>
 
-        <div className="header-switch" onClick={ () => { (props.auth === "Sign Up")? navigate('/signup'): navigate('/login') }}>
-          (props.auth === "Sign Up")? "Already have an account?": "Don't have an account?" <strong>{props.auth}</strong>
+        <div className="header-switch" onClick={ () => props.auth === "Sign Up"? navigate('/login'): navigate('/signup') }>
+          {props.auth === "Sign Up" ? (
+          <>
+            Already have an account? <strong>Login</strong>
+          </>
+        ) : (
+          <>
+            Don't have an account? <strong>Sign Up</strong>
+          </>
+        )}
+
         </div>
       </header>
   );

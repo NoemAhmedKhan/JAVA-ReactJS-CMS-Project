@@ -1,7 +1,7 @@
 /* SECTION */
 .auth-right {
-  flex: 1; background: #fff;
-  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  display: flex; flex-direction: column; flex: 1; align-items: center; justify-content: center;
   padding: 44px 48px;
   overflow-y: auto;
 }

@@ -11,7 +11,7 @@ const Login = () => {
     <>
     <__Header auth="Login"/>
     <__Main 
-auth="Login"
+auth="login"
 leftPanelIcon="fas fa-address-card" 
 leftPanelHead="Welcome back!" 
 leftPanelPara="Log in to access your contacts, manage your network, and stay organized."
