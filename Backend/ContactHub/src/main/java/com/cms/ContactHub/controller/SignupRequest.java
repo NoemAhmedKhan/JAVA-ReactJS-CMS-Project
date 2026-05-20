@@ -16,8 +16,7 @@ public class SignupRequest {
     private UserService userService;
 
     @PostMapping('/signup')
-    public HttpResponse createUser(@RequestBody @Valid SignupRequestDTO data){
+    public void createUser(@RequestBody @Valid SignupRequestDTO data){
         userService.signupUser(data);
-        return null;
     }
 }
