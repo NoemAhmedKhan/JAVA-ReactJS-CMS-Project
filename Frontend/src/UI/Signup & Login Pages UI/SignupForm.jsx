@@ -1,7 +1,22 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "./__SignupForm.css";
 
 const SignupForm = () => {
+
+  const [form, setForm] = useState({fullname: "", email: "", password: "", confirm: ""})
+
+  const handleSignup = (event) => {
+    event.preventDefault();
+
+
+    console.log(event.target.value);
+  }
+
+  const handleChange = (event) => {
+    setForm({fullname: event.target.value, email: event.target.value, password: event.target.value, confirm: event.target.value})
+    console.log(form)
+  }
 
   const navigate = useNavigate();
 
@@ -25,6 +40,7 @@ const SignupForm = () => {
                     className="form-input"
                     placeholder="Mr. Ahmed"
                     autoComplete="name"
+                    onChange={handleChange}
                   />
                 </div>
                 <span className="form-error" id="nameErr"></span>
@@ -46,6 +62,7 @@ const SignupForm = () => {
                     className="form-input"
                     placeholder="yourname@gmail.com"
                     autoComplete="email"
+                    onChange={handleChange}
                   />
                 </div>
                 <span className="form-error" id="emailErr"></span>
@@ -67,6 +84,7 @@ const SignupForm = () => {
                     className="form-input"
                     placeholder="Min. 8 characters"
                     autoComplete="new-password"
+                    onChange={handleChange}
                   />
 
                   <button
@@ -96,6 +114,7 @@ const SignupForm = () => {
                     className="form-input"
                     placeholder="Re-enter your password"
                     autoComplete="new-password"
+                    onChange={handleChange}
                   />
 
                   <button
@@ -113,7 +132,7 @@ const SignupForm = () => {
 
              
               {/* Submit */}
-              <button type="submit" className="btn-submit" id="submitBtn">
+              <button type="submit" className="btn-submit" id="submitBtn" onClick={handleSignup}>
                 <span className="btn-text">Create Account</span>
                 <span className="btn-spinner" id="spinner">
                   <i className="fas fa-circle-notch fa-spin"></i>
