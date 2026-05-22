@@ -68,10 +68,15 @@ const SignupForm = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData) // Data must be a string
+        body: JSON.stringify({
+          fullName: formData.fullname,
+          email: formData.email.toLowerCase(),
+          password: formData.password,
+        })
       })
-          .then(response => response.json())
-          .then(result => console.log('Success:', result));
+          .then(response => response.text())
+          .then(result => console.log('Success:', result))
+          .catch(error => console.log(error));
     }
   }
   return (
@@ -208,7 +213,7 @@ const SignupForm = () => {
             </form>
 
             <p className="auth-footer-link">
-              Already have an account? <div onClick={ () => { navigate('/login') }}>Sign in</div>
+              Already have an account? <span onClick={ () => { navigate('/login') }}>Sign in</span>
             </p>
 </>
             );

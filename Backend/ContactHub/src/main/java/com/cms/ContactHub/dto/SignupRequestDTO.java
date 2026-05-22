@@ -9,11 +9,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NotBlank
 public class SignupRequestDTO {
+    @NotBlank
     private String fullName;
     @Email(message = "Invalid Email!")
+    @NotBlank
     private String email;
     @Size(min = 8, max = 16, message = "Invalid Password!")
+    @NotBlank
     private String password;
 }
