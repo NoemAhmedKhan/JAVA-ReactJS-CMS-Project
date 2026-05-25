@@ -79,6 +79,7 @@ const SignupForm = () => {
           .catch(error => console.log(error));
     }
   }
+
   return (
     <>
     {/* SIGNUP FORM */}
