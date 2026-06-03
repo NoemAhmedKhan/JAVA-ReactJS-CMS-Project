@@ -1,6 +1,7 @@
 package com.cms.ContactHub.controller;
 
 import com.cms.ContactHub.dto.LoginRequestDTO;
+import com.cms.ContactHub.dto.LoginResponseDTO;
 import com.cms.ContactHub.dto.SignupRequestDTO;
 import com.cms.ContactHub.service.UserService;
 import jakarta.validation.Valid;
@@ -14,7 +15,5 @@ public class LoginRequest {
     private UserService userService;
 
     @PostMapping("/login")
-    public String getUser(@RequestBody @Valid LoginRequestDTO data){
-        return userService.authenticateUser(data);
-    }
+    public LoginResponseDTO getUser(@RequestBody @Valid LoginRequestDTO data){ return userService.authenticateUser(data); }
 }

@@ -36,7 +36,7 @@
 }
 .logo-accent { color: var(--primary); }
 
-/* Nav */
+/* Nav — buttons replacing anchor tags */
 .nav { display: flex; align-items: center; gap: 8px; }
 .nav-link {
   font-family: var(--font-body);
@@ -45,6 +45,10 @@
   padding: 8px 14px;
   border-radius: var(--radius-sm);
   transition: color var(--transition), background var(--transition);
+  /* Reset default button styles */
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 .nav-link:hover { color: var(--primary); background: rgba(225,112,85,.07); }
 
@@ -72,10 +76,19 @@
   background: rgba(255,255,255,.98);
 }
 .mobile-nav.open { display: flex; }
-.mobile-nav a {
+/* Target buttons inside mobile-nav (replaced <a> tags) */
+.mobile-nav button {
   font-family: var(--font-body); font-weight: 600;
   color: var(--dark); padding: 12px 0;
   border-bottom: 1px solid var(--gray-200);
   transition: color var(--transition);
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-size: 1rem;
 }
-.mobile-nav a:hover { color: var(--primary); }
+.mobile-nav button:hover { color: var(--primary); }

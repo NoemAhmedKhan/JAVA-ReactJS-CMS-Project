@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import Signup from "./UI/Signup & Login Pages UI/Signup";
 import Login from "./UI/Signup & Login Pages UI/Login";
+import Dashboard from "./UI/Dashboard UI/Dashboard";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -11,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/" element={<App />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   </BrowserRouter>,
 );

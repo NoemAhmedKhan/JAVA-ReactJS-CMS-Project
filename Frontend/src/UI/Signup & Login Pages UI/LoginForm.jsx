@@ -5,165 +5,116 @@ import { useState } from "react";
 const LoginForm = () => {
 
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({email: "", password: ""})
+  const [formData, setFormData] = useState({email: "", password: ""});
   const [errors, setErrors] = useState({emailError: '', passwordError: ''});
   const [showPassword, setShowPassword] = useState(false);
 
   const getFields = (event) => {
-    setFormData(
-        {...formData,
-          [event.target.name]: event.target.value
-        })
-  }
+    setFormData({...formData, [event.target.name]: event.target.value});
+  };
 
   const validateFields = (formData) => {
-    // VALIDATION HANDLING
-    let copyErrors = {
-      emailError: '',
-      passwordError: ''
-    };
+    let copyErrors = {emailError: '', passwordError: ''};
 
-    if ( !(formData.email.toLowerCase().includes("@gmail.com")) || formData.email === "" ) copyErrors.emailError = "Invalid Email! Must be @gmail.com.";
-    else copyErrors.emailError = "";
+    if (!(formData.email.toLowerCase().includes("@gmail.com")) || formData.email === "")
+      copyErrors.emailError = "Invalid Email! Must be @gmail.com.";
 
-    // Password Length Checker
-    if ( formData.password.length < 8 || formData.password.length > 16 || formData.password.length === 0 ) copyErrors.passwordError = "Invalid Password! Password should be min. of '8' max. of '16' characters.";
-    else copyErrors.passwordError = "";
+    if (formData.password.length < 8 || formData.password.length > 16 || formData.password.length === 0)
+      copyErrors.passwordError = "Invalid Password! Password should be min. of '8' max. of '16' characters.";
 
     setErrors(copyErrors);
-
     for (const key in copyErrors) {
-      if ( copyErrors[key] !== "" ) return false;
+      if (copyErrors[key] !== "") return false;
     }
-
     return true;
-  }
+  };
 
   const handleLogin = (event) => {
     event.preventDefault();
     const isValid = validateFields(formData);
-
-    //   SEND REQUEST TO BACKEND THROUGH FETCH()
     if (isValid) {
       fetch('http://localhost:8080/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           email: formData.email.toLowerCase(),
           password: formData.password,
         })
       })
-          .then(response => response.text())
-          .then(result => console.log('Success:', result))
-          .catch(error => console.log(error));
+        .then(async (res) => {
+          const text = await res.text();
+          return text ? JSON.parse(text) : {};
+        })
+        .then(data => {
+          if (data.token) {
+            localStorage.setItem("TOKEN", data.token);
+            navigate("/dashboard");
+          }
+          console.log(data.message);
+        })
+        .catch(error => console.log(error));
     }
-  }
+  };
 
   return (
     <>
-{/* LOGIN FORM */}
-            <form noValidate>
+      <form noValidate>
 
-              {/* EMAIL */}
-              <div className="form-group">
+        {/* EMAIL */}
+        <div className="form-group">
+          <label htmlFor="email" className="form-label">Email Address</label>
+          <div className="input-wrap">
+            <span className="input-icon"><i className="fas fa-envelope"></i></span>
+            <input
+              type="email" id="email" name="email"
+              className="form-input"
+              placeholder="yourname@gmail.com"
+              autoComplete="email"
+              onChange={getFields}
+            />
+          </div>
+          <span className="form-error">{errors.emailError}</span>
+        </div>
 
-                <label htmlFor="email" className="form-label">
-                  Email Address
-                </label>
+        {/* PASSWORD */}
+        <div className="form-group">
+          <div className="label-row">
+            <label htmlFor="password" className="form-label">Password</label>
+            {/* Issue 5 fixed: was <a className="forgot-link"> with no href — now a <button> */}
+            <button type="button" className="forgot-link">Forgot password?</button>
+          </div>
+          <div className="input-wrap">
+            <span className="input-icon"><i className="fas fa-lock"></i></span>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password" name="password"
+              className="form-input"
+              placeholder="Enter your password"
+              autoComplete="current-password"
+              onChange={getFields}
+            />
+            <button type="button" className="eye-toggle" aria-label="Toggle password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <i className="fas fa-eye"></i>
+            </button>
+          </div>
+          <span className="form-error">{errors.passwordError}</span>
+        </div>
 
-                <div className="input-wrap">
-                  <span className="input-icon">
-                    <i className="fas fa-envelope"></i>
-                  </span>
+        {/* Issue 6 fixed: was type="submit" — now type="button" to avoid double-firing */}
+        <button type="button" className="btn-submit" onClick={handleLogin}>
+          <span className="btn-text">Sign In</span>
+          <span className="btn-spinner"><i className="fas fa-circle-notch fa-spin"></i></span>
+          <i className="fas fa-arrow-right btn-arrow"></i>
+        </button>
 
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="form-input"
-                    placeholder="yourname@gmail.com"
-                    autoComplete="email"
-                    onChange={getFields}
-                  />
-                </div>
+      </form>
 
-                <span className="form-error" id="emailErr">
-                  {errors.emailError}
-                </span>
-              </div>
-
-              {/* PASSWORD */}
-              <div className="form-group">
-
-                <div className="label-row">
-                  <label htmlFor="password" className="form-label">
-                    Password
-                  </label>
-
-                  <a className="forgot-link">
-                    Forgot password?
-                  </a>
-                </div>
-
-                <div className="input-wrap">
-
-                  <span className="input-icon">
-                    <i className="fas fa-lock"></i>
-                  </span>
-
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    name="password"
-                    className="form-input"
-                    placeholder="Enter your password"
-                    autoComplete="current-password"
-                    onChange={getFields}
-                  />
-
-                  <button
-                      type="button"
-                      className="eye-toggle"
-                      id="eyeToggle1"
-                      aria-label="Toggle password"
-                      onClick={() => setShowPassword(!showPassword)}
-                  >
-                    <i className="fas fa-eye"></i>
-                  </button>
-                </div>
-
-                <span className="form-error" id="passwordErr">
-                  {errors.passwordError}
-                </span>
-              </div>
-
-              {/* SUBMIT */}
-              <button type="submit" className="btn-submit" onClick={handleLogin}>
-
-                <span className="btn-text">Sign In</span>
-
-                <span className="btn-spinner">
-                  <i className="fas fa-circle-notch fa-spin"></i>
-                </span>
-
-                <i className="fas fa-arrow-right btn-arrow"></i>
-
-              </button>
-
-            </form>
-
-            {/* FOOTER LINK */}
-            <p className="auth-footer-link">
-              Don't have an account?{" "}
-              <span
-                onClick={ () => { navigate('/signup') }}
-              >
-                Create Account
-              </span>
-            </p>
-
+      <p className="auth-footer-link">
+        Don't have an account?{" "}
+        <span onClick={() => navigate('/signup')}>Create Account</span>
+      </p>
     </>
   );
 };

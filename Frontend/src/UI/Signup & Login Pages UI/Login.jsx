@@ -1,12 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import __Header from "./__Header";
 import __Main from "./__Main"
 import __Footer from "./__Footer"
 
 const Login = () => {
-
-  const navigate = useNavigate();
-
+  
   return (
     <>
     <__Header auth="Login"/>

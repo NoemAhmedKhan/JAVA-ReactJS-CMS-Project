@@ -4,20 +4,16 @@ import "./__SignupForm.css";
 
 const SignupForm = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({fullname: "", email: "", password: "", confirm: ""})
+  const [formData, setFormData] = useState({fullname: "", email: "", password: "", confirm: ""});
   const [errors, setErrors] = useState({nameError: '', emailError: '', passwordError: '', confirmPasswordError: ''});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const getFields = (event) => {
-    setFormData(
-        {...formData,
-          [event.target.name]: event.target.value
-        })
-  }
+    setFormData({...formData, [event.target.name]: event.target.value});
+  };
 
   const validateFields = (formData) => {
-    // VALIDATION HANDLING
     let copyErrors = {
       nameError: '',
       emailError: '',
@@ -25,199 +21,146 @@ const SignupForm = () => {
       confirmPasswordError: ''
     };
 
-    if ( formData.fullname.trim() === "" ) copyErrors.nameError = "Name can not be empty! Fill Your Name.";
-    else copyErrors.nameError = "";
+    if (formData.fullname.trim() === "")
+      copyErrors.nameError = "Name can not be empty! Fill Your Name.";
 
-    if ( !(formData.email.toLowerCase().includes("@gmail.com")) || formData.email === "" ) copyErrors.emailError = "Invalid Email! Must be @gmail.com.";
-    else copyErrors.emailError = "";
+    if (!(formData.email.toLowerCase().includes("@gmail.com")) || formData.email === "")
+      copyErrors.emailError = "Invalid Email! Must be @gmail.com.";
 
-    // Password Length Checker
-    if ( formData.password.length < 8 || formData.password.length > 16 || formData.password.length === 0 ) {
+    if (formData.password.length < 8 || formData.password.length > 16 || formData.password.length === 0) {
       copyErrors.passwordError = "Invalid Password! Password should be min. of '8' max. of '16' characters.";
-    }
-    else{
-      copyErrors.passwordError = "";
-      // At least 1 number, 1 special character, and Min. 8 characters.
-      // Password Regex
+    } else {
       const passRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).+$/;
-      if ( !(passRegex.test(formData.password)) ) copyErrors.passwordError = "Invalid Password! Must contain at least one digit, special character, and upper case letter.";
-      else copyErrors.passwordError = "";
+      if (!(passRegex.test(formData.password)))
+        copyErrors.passwordError = "Invalid Password! Must contain at least one digit, special character, and upper case letter.";
     }
 
-    // Confirm Password Validation
-    if ( !(formData.confirm === formData.password) || formData.confirm.length === 0 ) copyErrors.confirmPasswordError = "Confirm Password is not similar.";
-    else copyErrors.confirmPasswordError = "";
+    if (!(formData.confirm === formData.password) || formData.confirm.length === 0)
+      copyErrors.confirmPasswordError = "Confirm Password is not similar.";
 
     setErrors(copyErrors);
-
     for (const key in copyErrors) {
-      if ( copyErrors[key] !== "" ) return false;
+      if (copyErrors[key] !== "") return false;
     }
-
     return true;
-  }
+  };
 
   const handleSignup = (event) => {
     event.preventDefault();
     const isValid = validateFields(formData);
-
-    //   SEND REQUEST TO BACKEND THROUGH FETCH()
     if (isValid) {
       fetch('http://localhost:8080/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           fullName: formData.fullname,
           email: formData.email.toLowerCase(),
           password: formData.password,
         })
       })
-          .then(response => response.text())
-          .then(result => console.log('Success:', result))
-          .catch(error => console.log(error));
+        .then(response => response.text())
+        .then(result => console.log('Success:', result))
+        .catch(error => console.log(error));
     }
-  }
+  };
 
   return (
     <>
-    {/* SIGNUP FORM */}
-            <form id="signupForm">
-              {/* Full Name */}
-              <div className="form-group" id="fgName">
-                <label className="form-label" htmlFor="fullname">
-                  Full Name
-                </label>
-                <div className="input-wrap">
-                  <span className="input-icon">
-                    <i className="fas fa-user"></i>
-                  </span>
-                  <input
-                    type="text"
-                    id="fullname"
-                    name="fullname"
-                    className="form-input"
-                    placeholder="Mr. Ahmed"
-                    autoComplete="name"
-                    onChange={getFields}
-                  />
-                </div>
-                <span className="form-error" id="nameErr">
-                  {errors.nameError}
-                </span>
-              </div>
+      <form noValidate>
 
-              {/* Email */}
-              <div className="form-group" id="fgEmail">
-                <label className="form-label" htmlFor="email">
-                  Email Address
-                </label>
-                <div className="input-wrap">
-                  <span className="input-icon">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="form-input"
-                    placeholder="yourname@gmail.com"
-                    autoComplete="email"
-                    onChange={getFields}
-                  />
-                </div>
-                <span className="form-error" id="emailErr">
-                  {errors.emailError}
-                </span>
-              </div>
+        {/* Full Name */}
+        <div className="form-group">
+          <label className="form-label" htmlFor="fullname">Full Name</label>
+          <div className="input-wrap">
+            <span className="input-icon"><i className="fas fa-user"></i></span>
+            <input
+              type="text" id="fullname" name="fullname"
+              className="form-input"
+              placeholder="Mr. Ahmed"
+              autoComplete="name"
+              onChange={getFields}
+            />
+          </div>
+          <span className="form-error">{errors.nameError}</span>
+        </div>
 
-              {/* Password */}
-              <div className="form-group" id="fgPassword">
-                <label className="form-label" htmlFor="password">
-                  Password
-                </label>
-                <div className="input-wrap">
-                  <span className="input-icon">
-                    <i className="fas fa-lock"></i>
-                  </span>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    name="password"
-                    className="form-input"
-                    placeholder="Min. 8 characters"
-                    autoComplete="new-password"
-                    onChange={getFields}
-                  />
+        {/* Email */}
+        <div className="form-group">
+          <label className="form-label" htmlFor="email">Email Address</label>
+          <div className="input-wrap">
+            <span className="input-icon"><i className="fas fa-envelope"></i></span>
+            <input
+              type="email" id="email" name="email"
+              className="form-input"
+              placeholder="yourname@gmail.com"
+              autoComplete="email"
+              onChange={getFields}
+            />
+          </div>
+          <span className="form-error">{errors.emailError}</span>
+        </div>
 
-                  <button
-                    type="button"
-                    className="eye-toggle"
-                    id="eyeToggle1"
-                    aria-label="Toggle password"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    <i className="fas fa-eye" id="eyeIcon1"></i>
-                  </button>
-                </div>
+        {/* Password */}
+        <div className="form-group">
+          <label className="form-label" htmlFor="password">Password</label>
+          <div className="input-wrap">
+            <span className="input-icon"><i className="fas fa-lock"></i></span>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password" name="password"
+              className="form-input"
+              placeholder="Min. 8 characters"
+              autoComplete="new-password"
+              onChange={getFields}
+            />
+            <button
+              type="button" className="eye-toggle"
+              aria-label="Toggle password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <i className="fas fa-eye"></i>
+            </button>
+          </div>
+          <span className="form-error">{errors.passwordError}</span>
+        </div>
 
-                <span className="form-error" id="passwordErr">
-                  {errors.passwordError}
-                </span>
-            </div>
+        {/* Confirm Password */}
+        <div className="form-group">
+          <label className="form-label" htmlFor="confirm">Confirm Password</label>
+          <div className="input-wrap">
+            <span className="input-icon"><i className="fas fa-lock"></i></span>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              id="confirm" name="confirm"
+              className="form-input"
+              placeholder="Re-enter your password"
+              autoComplete="new-password"
+              onChange={getFields}
+            />
+            <button
+              type="button" className="eye-toggle"
+              aria-label="Toggle confirm password"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              <i className="fas fa-eye"></i>
+            </button>
+          </div>
+          <span className="form-error">{errors.confirmPasswordError}</span>
+        </div>
 
-              {/* Confirm Password */}
-              <div className="form-group" id="fgConfirm">
-                <label className="form-label" htmlFor="confirm">
-                  Confirm Password
-                </label>
-                <div className="input-wrap">
-                  <span className="input-icon">
-                    <i className="fas fa-lock"></i>
-                  </span>
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    id="confirm"
-                    name="confirm"
-                    className="form-input"
-                    placeholder="Re-enter your password"
-                    autoComplete="new-password"
-                    onChange={getFields}
-                  />
+        <button type="button" className="btn-submit" onClick={handleSignup}>
+          <span className="btn-text">Create Account</span>
+          <span className="btn-spinner"><i className="fas fa-circle-notch fa-spin"></i></span>
+          <i className="fas fa-arrow-right btn-arrow"></i>
+        </button>
 
-                  <button
-                    type="button"
-                    className="eye-toggle"
-                    id="eyeToggle2"
-                    aria-label="Toggle confirm password"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    <i className="fas fa-eye" id="eyeIcon2"></i>
-                  </button>
-                </div>
+      </form>
 
-                <span className="form-error" id="confirmErr">
-                  {errors.confirmPasswordError}
-                </span>
-              </div>
-
-             
-              {/* Submit */}
-              <button type="button" className="btn-submit" id="submitBtn" onClick={handleSignup} >
-                <span className="btn-text">Create Account</span>
-                <span className="btn-spinner" id="spinner">
-                  <i className="fas fa-circle-notch fa-spin"></i>
-                </span>
-                <i className="fas fa-arrow-right btn-arrow" id="btnArrow"></i>
-              </button>
-            </form>
-
-            <p className="auth-footer-link">
-              Already have an account? <span onClick={ () => { navigate('/login') }}>Sign in</span>
-            </p>
-</>
-            );
+      <p className="auth-footer-link">
+        Already have an account? <span onClick={() => navigate('/login')}>Sign in</span>
+      </p>
+    </>
+  );
 };
 
 export default SignupForm;

@@ -5,8 +5,8 @@ import __RightPanel from "./__RightPanel";
 const __Main = (props) => {
   return (
     <div className="auth-main">
-    <__LeftPanel props={props}/>
-    <__RightPanel props={props} />
+      <__LeftPanel {...props} />
+      <__RightPanel {...props} />
     </div>
   );
 };

@@ -6,22 +6,19 @@ const __LeftPanel = (props) => {
       <div className="left-content">
 
         <div className="left-icon-wrap">
-          <i className={props.props.leftPanelIcon}></i>
+          <i className={props.leftPanelIcon}></i>
         </div>
 
-        <h2>{props.props.leftPanelHead}</h2>
-
-        <p>{props.props.leftPanelPara}</p>
+        <h2>{props.leftPanelHead}</h2>
+        <p>{props.leftPanelPara}</p>
 
         <ul className="left-features">
-
-          {props.props.leftPanelFeatureList.features.map((feature, index) => (
+          {props.leftPanelFeatureList.features.map((feature, index) => (
             <li key={index}>
-              <i className={props.props.leftPanelFeatureList.icon}></i>
+              <i className={props.leftPanelFeatureList.icon}></i>
               <span>{feature}</span>
             </li>
           ))}
-
         </ul>
 
       </div>

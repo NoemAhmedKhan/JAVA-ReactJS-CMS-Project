@@ -1,9 +1,11 @@
 package com.cms.ContactHub.service;
 
 import com.cms.ContactHub.dto.LoginRequestDTO;
+import com.cms.ContactHub.dto.LoginResponseDTO;
 import com.cms.ContactHub.dto.SignupRequestDTO;
 import com.cms.ContactHub.entity.Users;
 import com.cms.ContactHub.repository.UserRepository;
+import com.cms.ContactHub.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtToken;
 
     public String signupUser(SignupRequestDTO data){
         //  DUPLICATE EMAIL VALIDATION
@@ -30,17 +34,29 @@ public class UserService {
         return "Account Created!";
     }
 
-    public String authenticateUser(LoginRequestDTO data){
+    public LoginResponseDTO authenticateUser(LoginRequestDTO data){
+//        LOGIN RESPONSE DTO
+        LoginResponseDTO response = new LoginResponseDTO();
 //        FIND USER
         Optional<Users> user = userRepository.findByEmail(data.getEmail());
 
 //        VALIDATE USER EXISTENCE
-        if(!user.isPresent()) return "User Is Not Registered With This Email: " + data.getEmail();
+        if(!user.isPresent()) {
+            response.setMessage("User Is Not Registered With This Email: " + data.getEmail());
+            return response;
+        }
 
 //        VALIDATE PASSWORD MATCH
         Users actualUser = user.get();
         boolean isPasswordValid = passwordEncoder.matches(data.getPassword(), actualUser.getPassword());
-        if(isPasswordValid) return "User Authenticated!";
-        return "Password Not Match!";
+        if( ( actualUser.getEmail().equals(data.getEmail()) ) && ( isPasswordValid ) ) {
+            String token = jwtToken.generateToken(actualUser.getEmail());
+            response.setToken(token);
+            response.setMessage("Login Successful!");
+            return response;
+        }
+
+        response.setMessage("Password Is Not Correct!");
+        return response;
     }
 }

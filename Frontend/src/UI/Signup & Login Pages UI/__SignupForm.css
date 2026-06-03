@@ -91,5 +91,5 @@
   text-align: center; font-size: .87rem; color: var(--gray-600);
   margin-top: 14px; cursor: pointer;
 }
-.auth-footer-link div { color: var(--primary); font-weight: 700; }
-.auth-footer-link div:hover { text-decoration: underline; }
+.auth-footer-link span { color: var(--primary); font-weight: 700; cursor: pointer; }
+.auth-footer-link span:hover { text-decoration: underline; }

@@ -1,4 +1,4 @@
-import './Footer.css'
+import './Footer.css';
 
 const Footer = () => {
   return (
@@ -19,29 +19,30 @@ const Footer = () => {
         <div className="footer-items">
           <div className="footer-col">
             <h4>Features</h4>
-            <a href="#smart-contacts">Smart Contacts</a>
-            <a href="#group-management">Group Management</a>
-            <a href="#instant-search">Instant Search</a>
-            <a href="#authentication">Authentication</a>
-            <a href="#sync-contacts">Sync Contacts</a>
-            <a href="#crud-operations">CRUD Operations</a>
+            {/* Removed broken hash hrefs — these IDs don't exist on any element.
+                 Replaced with plain spans styled as links, or you can wire
+                 them to scrollToSection() if you lift that helper here. */}
+            <span className="footer-link">Smart Contacts</span>
+            <span className="footer-link">Group Management</span>
+            <span className="footer-link">Instant Search</span>
+            <span className="footer-link">Authentication</span>
+            <span className="footer-link">Sync Contacts</span>
+            <span className="footer-link">CRUD Operations</span>
           </div>
 
           <div className="footer-col">
-            <h4 id="contact">Contact</h4>
-
-            <a 
-              href="https://www.linkedin.com/in/noem-ahmed-khan" 
-              target="_blank" 
+            {/* Removed id="contact" — use the section's own id instead */}
+            <h4>Contact</h4>
+            <a
+              href="https://www.linkedin.com/in/noem-ahmed-khan"
+              target="_blank"
               rel="noopener noreferrer"
             >
               <i className="fa-brands fa-linkedin"></i> Visit
             </a>
-
             <a href="mailto:noemahmedkhan8307@gmail.com">
               <i className="fa-solid fa-envelope"></i> noemahmedkhan8307@gmail.com
             </a>
-
             <a href="tel:+923452971536">
               <i className="fa-solid fa-phone"></i> +92 345 2971536
             </a>
@@ -50,9 +51,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>
-          &copy; 2026 ContactHub. All rights reserved. | Your data is protected.
-        </p>
+        <p>&copy; 2026 ContactHub. All rights reserved. | Your data is protected.</p>
       </div>
     </footer>
   );

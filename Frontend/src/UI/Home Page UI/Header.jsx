@@ -1,10 +1,29 @@
-import './Header.css'
+import { useState, useEffect } from 'react';
+import './Header.css';
 
 const Header = () => {
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setMenuOpen(false);
+  };
+
   return (
-    <header className="header">
+    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-inner">
+
         <div className="logo">
           <div className="logo-icon">
             <i className="fas fa-address-book"></i>
@@ -13,28 +32,31 @@ const Header = () => {
             Contact<span className="logo-accent">Hub</span>
           </span>
         </div>
+
         <nav className="nav">
-          <a href="#features" className="nav-link">
-            Features
-          </a>
-          <a href="#about" className="nav-link">
-            About
-          </a>
-          <a href="#contact" className="nav-link">
-            Contact
-          </a>
+          <button className="nav-link" onClick={() => scrollToSection('features')}>Features</button>
+          <button className="nav-link" onClick={() => scrollToSection('about')}>About</button>
+          <button className="nav-link" onClick={() => scrollToSection('contact')}>Contact</button>
         </nav>
-        <button className="hamburger" id="hamburger" aria-label="Toggle menu">
+
+        <button
+          className={`hamburger ${menuOpen ? 'open' : ''}`}
+          onClick={() => setMenuOpen(prev => !prev)}
+          aria-label="Toggle menu"
+        >
           <span></span>
           <span></span>
           <span></span>
         </button>
+
       </div>
-      <div className="mobile-nav" id="mobileNav">
-        <a href="#features">Features</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+
+      <div className={`mobile-nav ${menuOpen ? 'open' : ''}`}>
+        <button onClick={() => scrollToSection('features')}>Features</button>
+        <button onClick={() => scrollToSection('about')}>About</button>
+        <button onClick={() => scrollToSection('contact')}>Contact</button>
       </div>
+
     </header>
   );
 };
