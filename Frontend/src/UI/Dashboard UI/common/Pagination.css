@@ -1,0 +1,57 @@
+/* ── PAGINATION ── */
+.pagination-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-top: 1px solid var(--gray-200);
+  background: var(--gray-100);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.pagination-info {
+  font-size: .82rem;
+  color: var(--gray-600);
+  font-weight: 500;
+}
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pag-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 6px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .85rem;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all var(--transition);
+}
+.pag-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.pag-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+.pag-btn--active {
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  border-color: transparent;
+  color: #fff !important;
+  box-shadow: 0 3px 10px rgba(255,118,117,.4);
+}
+.pag-ellipsis {
+  color: var(--gray-400);
+  padding: 0 4px;
+  font-size: .9rem;
+}

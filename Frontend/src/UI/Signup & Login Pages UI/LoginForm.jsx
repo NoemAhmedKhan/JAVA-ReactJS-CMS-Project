@@ -80,8 +80,6 @@ const LoginForm = () => {
         <div className="form-group">
           <div className="label-row">
             <label htmlFor="password" className="form-label">Password</label>
-            {/* Issue 5 fixed: was <a className="forgot-link"> with no href — now a <button> */}
-            <button type="button" className="forgot-link">Forgot password?</button>
           </div>
           <div className="input-wrap">
             <span className="input-icon"><i className="fas fa-lock"></i></span>
@@ -102,7 +100,6 @@ const LoginForm = () => {
           <span className="form-error">{errors.passwordError}</span>
         </div>
 
-        {/* Issue 6 fixed: was type="submit" — now type="button" to avoid double-firing */}
         <button type="button" className="btn-submit" onClick={handleLogin}>
           <span className="btn-text">Sign In</span>
           <span className="btn-spinner"><i className="fas fa-circle-notch fa-spin"></i></span>
