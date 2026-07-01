@@ -15,5 +15,5 @@ public class LoginRequest {
     private UserService userService;
 
     @PostMapping("/login")
-    public LoginResponseDTO getUser(@RequestBody @Valid LoginRequestDTO data){ return userService.authenticateUser(data); }
+    public LoginResponseDTO getUser(@RequestBody @Valid LoginRequestDTO request){ return userService.authenticateUser(request); }
 }
