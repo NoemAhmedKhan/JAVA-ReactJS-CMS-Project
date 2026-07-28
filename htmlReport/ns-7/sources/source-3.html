@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.cms.ContactHub.service</a>
+</div>
+
+<h1>Coverage Summary for Class: UserService (com.cms.ContactHub.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.2%
+  </span>
+  <span class="absValue">
+    (20/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.cms.ContactHub.service;
+&nbsp;
+&nbsp;import com.cms.ContactHub.dto.LoginRequestDTO;
+&nbsp;import com.cms.ContactHub.dto.LoginResponseDTO;
+&nbsp;import com.cms.ContactHub.dto.SignupRequestDTO;
+&nbsp;import com.cms.ContactHub.entity.Users;
+&nbsp;import com.cms.ContactHub.repository.UserRepository;
+&nbsp;import com.cms.ContactHub.security.JwtService;
+&nbsp;import lombok.NonNull;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+&nbsp;import org.springframework.security.authentication.BadCredentialsException;
+&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+&nbsp;import org.springframework.security.core.Authentication;
+&nbsp;import org.springframework.security.core.userdetails.User;
+&nbsp;import org.springframework.security.core.userdetails.UsernameNotFoundException;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class UserService {</b>
+&nbsp;    @Autowired
+&nbsp;    private UserRepository userRepository;
+&nbsp;    @Autowired
+&nbsp;    private PasswordEncoder passwordEncoder;
+&nbsp;    @Autowired
+&nbsp;    private AuthenticationManager authenticationManager;
+&nbsp;    @Autowired
+&nbsp;    private JwtService jwtToken;
+&nbsp;
+<b class="pc">&nbsp;    public String signupUser(@NonNull SignupRequestDTO data){</b>
+&nbsp;        //  DUPLICATE EMAIL VALIDATION
+<b class="fc">&nbsp;        Optional&lt;Users&gt; user = userRepository.findByEmail(data.getEmail().toLowerCase().trim());</b>
+<b class="fc">&nbsp;        if(user.isPresent()) return &quot;User Already Exist!&quot;;</b>
+&nbsp;
+&nbsp;//        ENCODE PASSWORD
+<b class="fc">&nbsp;        String encodedPassword = passwordEncoder.encode(data.getPassword());</b>
+&nbsp;//        CREATE USER ENTITY
+<b class="fc">&nbsp;        Users userEntity = new Users(data.getFullName(), data.getEmail().toLowerCase().trim(), encodedPassword);</b>
+<b class="fc">&nbsp;        userRepository.save(userEntity);</b>
+<b class="fc">&nbsp;        return &quot;Account Created!&quot;;</b>
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    public LoginResponseDTO authenticateUser(@NonNull LoginRequestDTO request){</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            Authentication authToken = new UsernamePasswordAuthenticationToken(request.getEmail().toLowerCase().trim(), request.getPassword());</b>
+<b class="fc">&nbsp;            Authentication authObj = authenticationManager.authenticate(authToken);</b>
+<b class="fc">&nbsp;            if(authObj.isAuthenticated()){</b>
+<b class="fc">&nbsp;                Optional&lt;Users&gt; user = userRepository.findByEmail(request.getEmail().toLowerCase().trim());</b>
+<b class="fc">&nbsp;                Users actualUser = user.get();</b>
+&nbsp;
+<b class="fc">&nbsp;                Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;                map.put(&quot;fullName&quot;, actualUser.getFullName());</b>
+<b class="fc">&nbsp;                map.put(&quot;email&quot;, actualUser.getEmail());</b>
+&nbsp;
+<b class="fc">&nbsp;                String token = jwtToken.generateToken(actualUser.getEmail());</b>
+<b class="fc">&nbsp;                return new LoginResponseDTO(token, map, &quot;Login Successful!&quot;);</b>
+&nbsp;            }
+&nbsp;        }catch (Exception e){
+<b class="nc">&nbsp;            return new LoginResponseDTO(&quot;&quot;, null, &quot;Incorrect username &amp; password!&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-07-24 02:51</div>
+</div>
+</body>
+</html>

@@ -14,22 +14,35 @@ const useContactForm = (initial = INITIAL) => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    if (errors[e.target.name]) {
-      setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.firstName.trim())
+
+    // Required: First Name
+    if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required.";
-    if (!formData.lastName.trim())
-      newErrors.lastName = "Last name is required.";
-    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+    }
+
+    // Required: Email
+    if (!formData.email.trim()) {
+      newErrors.email = "Email address is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Invalid email address.";
-    if (formData.phone && !/^\+?[\d\s\-().]{7,15}$/.test(formData.phone))
+    }
+
+    // Required: Phone
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required.";
+    } else if (!/^\+?[\d\s\-().]{7,15}$/.test(formData.phone)) {
       newErrors.phone = "Invalid phone number.";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };

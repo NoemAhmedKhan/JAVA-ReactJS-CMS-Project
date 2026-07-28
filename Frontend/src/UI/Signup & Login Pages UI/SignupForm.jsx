@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { useState } from "react";
 import "./__SignupForm.css";
 
@@ -59,7 +59,10 @@ const SignupForm = () => {
         })
       })
         .then(response => response.text())
-        .then(result => console.log('Success:', result))
+        .then(
+            result => console.log('Success:', result),
+            navigate('/login')
+        )
         .catch(error => console.log(error));
     }
   };

@@ -3,7 +3,9 @@ const ContactFormFields = ({ formData, errors, handleChange }) => {
     <>
       <div className="modal-form-row">
         <div className="modal-form-group">
-          <label className="modal-label" htmlFor="firstName">First Name *</label>
+          <label className="modal-label" htmlFor="firstName">
+            First Name <span className="required-star">*</span>
+          </label>
           <input
             type="text"
             id="firstName"
@@ -18,23 +20,26 @@ const ContactFormFields = ({ formData, errors, handleChange }) => {
         </div>
 
         <div className="modal-form-group">
-          <label className="modal-label" htmlFor="lastName">Last Name *</label>
+          <label className="modal-label" htmlFor="lastName">
+            Last Name
+          </label>
           <input
             type="text"
             id="lastName"
             name="lastName"
-            className={`modal-input ${errors.lastName ? "modal-input-error" : ""}`}
-            placeholder="Khan"
+            className="modal-input"
+            placeholder="Khan (optional)"
             value={formData.lastName}
             onChange={handleChange}
             autoComplete="family-name"
           />
-          {errors.lastName && <span className="modal-field-error">{errors.lastName}</span>}
         </div>
       </div>
 
       <div className="modal-form-group">
-        <label className="modal-label" htmlFor="email">Email Address</label>
+        <label className="modal-label" htmlFor="email">
+          Email Address <span className="required-star">*</span>
+        </label>
         <input
           type="email"
           id="email"
@@ -49,7 +54,9 @@ const ContactFormFields = ({ formData, errors, handleChange }) => {
       </div>
 
       <div className="modal-form-group">
-        <label className="modal-label" htmlFor="phone">Phone Number</label>
+        <label className="modal-label" htmlFor="phone">
+          Phone Number <span className="required-star">*</span>
+        </label>
         <input
           type="tel"
           id="phone"
@@ -64,13 +71,15 @@ const ContactFormFields = ({ formData, errors, handleChange }) => {
       </div>
 
       <div className="modal-form-group" style={{ marginBottom: 0 }}>
-        <label className="modal-label" htmlFor="address">Address</label>
+        <label className="modal-label" htmlFor="address">
+          Address
+        </label>
         <input
           type="text"
           id="address"
           name="address"
           className="modal-input"
-          placeholder="123 Main St, Karachi"
+          placeholder="123 Main St, Karachi (optional)"
           value={formData.address}
           onChange={handleChange}
           autoComplete="street-address"

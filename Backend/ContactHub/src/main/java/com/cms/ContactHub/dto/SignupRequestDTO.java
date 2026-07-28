@@ -11,11 +11,12 @@ import lombok.Setter;
 @Setter
 public class SignupRequestDTO {
     @NotBlank
+    @Size(min = 3, max = 20)
     private String fullName;
+    @NotBlank
     @Email(message = "Invalid Email!")
-    @NotBlank
     private String email;
-    @Size(min = 8, max = 16, message = "Invalid Password!")
     @NotBlank
+    @Size(min = 8, max = 16, message = "Invalid Password!")
     private String password;
 }

@@ -36,7 +36,7 @@ const Header = () => {
         <nav className="nav">
           <button className="nav-link" onClick={() => scrollToSection('features')}>Features</button>
           <button className="nav-link" onClick={() => scrollToSection('about')}>About</button>
-          <button className="nav-link" onClick={() => scrollToSection('contact')}>Contact</button>
+          <button className="nav-link" onClick={() => scrollToSection('footer')}>Contact</button>
         </nav>
 
         <button

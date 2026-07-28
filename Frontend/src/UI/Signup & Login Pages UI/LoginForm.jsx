@@ -48,9 +48,13 @@ const LoginForm = () => {
         .then(data => {
           if (data.token) {
             localStorage.setItem("TOKEN", data.token);
+            localStorage.setItem("USER", JSON.stringify(data.map));
             navigate("/dashboard");
           }
+          else alert("Incorrect Username & Password!");
+
           console.log(data.message);
+
         })
         .catch(error => console.log(error));
     }

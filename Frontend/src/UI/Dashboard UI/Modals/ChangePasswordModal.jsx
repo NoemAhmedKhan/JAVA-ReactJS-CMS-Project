@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Modal from "../common/Modal";
 import "../common/Modal.css";
@@ -17,7 +18,7 @@ const ChangePasswordModal = ({ onClose, onSuccess }) => {
     confirm: false,
   });
 
-  const token = localStorage.getItem("jwt_token");
+  const token = localStorage.getItem("TOKEN");
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -44,7 +45,7 @@ const ChangePasswordModal = ({ onClose, onSuccess }) => {
     if (!validate()) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/users/change-password", {
+      const res = await fetch("http://localhost:8080/profile/changepassword", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -55,12 +56,14 @@ const ChangePasswordModal = ({ onClose, onSuccess }) => {
           newPassword: formData.newPassword,
         }),
       });
-      if (res.ok) {
+      if (res.status === 200) {
+        const data = await res.json();
         onSuccess();
         onClose();
-      } else {
-        const data = await res.json();
-        setErrors({ currentPassword: data.message || "Incorrect current password." });
+        console.log(data.message);
+      }
+      else {
+        setErrors({ currentPassword: "Incorrect Current Password!" });
       }
     } catch (err) {
       console.error("Change password error:", err);

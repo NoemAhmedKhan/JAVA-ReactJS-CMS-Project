@@ -2,22 +2,35 @@ import { useState } from "react";
 import Modal from "../common/Modal";
 import "../common/Modal.css";
 import "./DeleteConfirmModal.css";
+import {useNavigate} from "react-router-dom";
 
 const DeleteConfirmModal = ({ contact, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("jwt_token");
+  const token = localStorage.getItem("TOKEN");
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/contacts/${contact.id}`, {
+      const res = await fetch(`http://localhost:8080/contacts/delete/${contact.id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      if (res.status === 401) {
+        localStorage.removeItem("USER");
+        localStorage.removeItem("TOKEN");
+        navigate("/login");
+        return;
+      }
+
       if (res.ok) {
+        const data = await res.json();
+        console.log(data.message);
         onSuccess();
         onClose();
       }
+
     } catch (err) {
       console.error("Delete contact error:", err);
     } finally {

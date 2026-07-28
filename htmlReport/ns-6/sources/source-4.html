@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JwtService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.cms.ContactHub.security</a>
+</div>
+
+<h1>Coverage Summary for Class: JwtService (com.cms.ContactHub.security)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JwtService</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.cms.ContactHub.security;
+&nbsp;
+&nbsp;import io.jsonwebtoken.Claims;
+&nbsp;import io.jsonwebtoken.Jwts;
+&nbsp;import io.jsonwebtoken.SignatureAlgorithm;
+&nbsp;import io.jsonwebtoken.security.Keys;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+&nbsp;import org.springframework.security.core.userdetails.UserDetailsService;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import javax.crypto.SecretKey;
+&nbsp;import java.security.Key;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Date;
+&nbsp;
+&nbsp;@Service
+<b class="nc">&nbsp;public class JwtService {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private UserDetailsService userDetailsService;
+&nbsp;
+&nbsp;//    SECRET KEY
+<b class="nc">&nbsp;    private final String secretKey = &quot;HsNoW37mySecretKEyi6o9KEy24Tm5NoNLiyUy2oF33Ds9FXJWT&quot;;</b>
+&nbsp;
+&nbsp;    public String generateToken(String email) {
+&nbsp;        // CONVERT SECRET KEY STRING INTO KEY OBJECT
+<b class="nc">&nbsp;        Key key = Keys.hmacShaKeyFor(secretKey.getBytes());</b>
+&nbsp;
+&nbsp;        // GENERATE JWT
+<b class="nc">&nbsp;        return Jwts.builder()</b>
+<b class="nc">&nbsp;                .setSubject(email) // STORE USER EMAIL</b>
+<b class="nc">&nbsp;                .setIssuedAt(new Date()) // TOKEN CREATED TIME</b>
+<b class="nc">&nbsp;                .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60))) // TOKEN EXPIRATION TIME (1 HOUR)</b>
+<b class="nc">&nbsp;                .signWith(key, SignatureAlgorithm.HS256) // SIGN TOKEN</b>
+<b class="nc">&nbsp;                .compact(); // CONVERT TOKEN TO STRING</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean validateToken(String token) {
+&nbsp;        // CONVERT SECRET KEY STRING INTO SECRET KEY OBJECT
+<b class="nc">&nbsp;        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            Claims claims = Jwts.parser()</b>
+<b class="nc">&nbsp;                    .verifyWith(key)</b>
+<b class="nc">&nbsp;                    .build()</b>
+<b class="nc">&nbsp;                    .parseSignedClaims(token)</b>
+<b class="nc">&nbsp;                    .getPayload();</b>
+&nbsp;
+&nbsp;//            COLLECT EMAIL FROM JWT
+<b class="nc">&nbsp;            String email = claims.getSubject();</b>
+&nbsp;//            COLLECT USER DETAILS OBJECT (USER ENTITY WRAPPED INTO CUSTOM USER DETAILS)
+<b class="nc">&nbsp;            UserDetails user = userDetailsService.loadUserByUsername(email);</b>
+&nbsp;//            STORE USER DETAILS (USER ENTITY) INTO SECURITY CONTEXT HOLDER PROVIDING AUTHENTICATED USER ENTITY TO SPRING SECURITY FOR CURRENT REQUEST AFTER JWT VALIDATION THROUGH JWT FILTER
+<b class="nc">&nbsp;            UsernamePasswordAuthenticationToken auth =</b>
+<b class="nc">&nbsp;                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());</b>
+&nbsp;
+<b class="nc">&nbsp;            SecurityContextHolder.getContext().setAuthentication(auth);</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;
+&nbsp;        }catch (Exception e){
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-07-24 02:51</div>
+</div>
+</body>
+</html>

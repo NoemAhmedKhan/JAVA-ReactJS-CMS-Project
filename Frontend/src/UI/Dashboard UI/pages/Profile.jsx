@@ -1,28 +1,25 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import ChangePasswordModal from "../Modals/ChangePasswordModal";
+import EditProfileModal from "../Modals/EditProfileModal";
 import Toast from "../common/Toast";
 import "./Profile.css";
+import {useNavigate} from "react-router-dom";
 
 const Profile = () => {
-  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showChangePw, setShowChangePw] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
   const [toast, setToast] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [editing, setEditing] = useState(false);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("TOKEN");
 
-  const token = localStorage.getItem("jwt_token");
-  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-
+  // Seed from localStorage so UI renders immediately, then overwrite with API response
+  const storedUser = JSON.parse(localStorage.getItem("USER") || "{}");
   const [profile, setProfile] = useState({
     fullName: storedUser.fullName || "",
     email: storedUser.email || "",
-    phone: storedUser.phone || "",
   });
-  const [formData, setFormData] = useState({ ...profile });
-  const [errors, setErrors] = useState({});
 
   const showToast = (msg, type = "success") => {
     setToast({ message: msg, type });
@@ -32,14 +29,22 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch("/api/users/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
+        const res = await fetch("http://localhost:8080/profile", {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if(res.status === 401) {
+          localStorage.removeItem("USER");
+          localStorage.removeItem("TOKEN");
+          navigate("/login");
+        }
+        if(res.ok) {
           const data = await res.json();
-          setProfile(data);
-          setFormData(data);
-          localStorage.setItem("user", JSON.stringify(data));
+          console.log(data.message);
         }
       } catch (err) {
         console.error("Fetch profile error:", err);
@@ -48,191 +53,85 @@ const Profile = () => {
     fetchProfile();
   }, [token]);
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    if (errors[e.target.name]) setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+  const handleProfileUpdated = (updatedUser) => {
+    const { fullName, email } = updatedUser;
+    setProfile({ fullName, email });
+    showToast("Profile updated successfully!");
   };
-
-  const validate = () => {
-    const e = {};
-    if (!formData.fullName.trim()) e.fullName = "Full name is required.";
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
-
-  const handleSave = async () => {
-    if (!validate()) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/users/me", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ fullName: formData.fullName, phone: formData.phone }),
-      });
-      if (res.ok) {
-        const updated = await res.json();
-        setProfile(updated);
-        setFormData(updated);
-        localStorage.setItem("user", JSON.stringify(updated));
-        setEditing(false);
-        showToast("Profile updated successfully!");
-      }
-    } catch (err) {
-      console.error("Update profile error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("jwt_token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
-
-  const avatarLetter = (profile.fullName || "U").charAt(0).toUpperCase();
 
   return (
-    <div className={`dashboard-root ${sidebarOpen ? "sidebar-open" : ""}`}>
-      <Sidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        activePage="profile"
-      />
+    <div className="dashboard-root">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+      {sidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
 
       <div className="dashboard-main">
         <header className="dash-topbar">
           <button
             className="hamburger-btn"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={() => setSidebarOpen((prev) => !prev)}
             aria-label="Toggle sidebar"
           >
-            <span /><span /><span />
+            <span />
+            <span />
+            <span />
           </button>
           <div className="dash-topbar-title">
-            <h1>Contact Manager</h1>
-            <span className="dash-breadcrumb">My Profile</span>
+            <h1>My Profile</h1>
           </div>
         </header>
 
         <div className="profile-body">
-          {/* Profile Card */}
           <div className="profile-card">
-            {/* Header banner */}
-            <div className="profile-banner" />
+            <div className="profile-banner">
+              <div className="profile-banner-content">
+                <h2 className="profile-banner-name">{profile.fullName || "User"}</h2>
+                <p className="profile-banner-email">{profile.email || ""}</p>
+              </div>
+            </div>
 
             <div className="profile-card-content">
-              <div className="profile-avatar-wrap">
-                <div className="profile-avatar">{avatarLetter}</div>
-              </div>
-
-              <div className="profile-info-header">
-                <div>
-                  <h2 className="profile-display-name">{profile.fullName || "User"}</h2>
-                  <p className="profile-display-email">{profile.email}</p>
-                </div>
-                <div className="profile-header-actions">
-                  {!editing && (
-                    <button
-                      className="btn-outline"
-                      onClick={() => setEditing(true)}
-                    >
-                      <i className="fas fa-pen" />
-                      Edit Profile
-                    </button>
-                  )}
-                  <button
-                    className="btn-outline"
-                    onClick={() => setShowChangePw(true)}
-                  >
-                    <i className="fas fa-key" />
-                    Change Password
-                  </button>
-                  <button className="btn-logout" onClick={handleLogout}>
-                    <i className="fas fa-sign-out-alt" />
-                    Logout
-                  </button>
-                </div>
+              <div className="profile-actions">
+                <button className="btn-outline" onClick={() => setShowEditProfile(true)}>
+                  <i className="fas fa-pen" />
+                  Edit Profile
+                </button>
+                <button className="btn-outline" onClick={() => setShowChangePw(true)}>
+                  <i className="fas fa-key" />
+                  Change Password
+                </button>
               </div>
 
               <div className="profile-divider" />
 
-              {/* Form */}
               <div className="profile-form-grid">
                 <div className="profile-field">
                   <label className="profile-field-label">Full Name</label>
-                  {editing ? (
-                    <>
-                      <input
-                        type="text"
-                        name="fullName"
-                        className={`modal-input ${errors.fullName ? "modal-input-error" : ""}`}
-                        value={formData.fullName}
-                        onChange={handleChange}
-                        autoComplete="name"
-                      />
-                      {errors.fullName && <span className="modal-field-error">{errors.fullName}</span>}
-                    </>
-                  ) : (
-                    <span className="profile-field-value">{profile.fullName || "—"}</span>
-                  )}
+                  <span className="profile-field-value">{profile.fullName || "—"}</span>
                 </div>
 
                 <div className="profile-field">
                   <label className="profile-field-label">Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    className="modal-input"
-                    value={profile.email}
-                    disabled
-                    readOnly
-                  />
+                  <span className="profile-field-value">{profile.email || "—"}</span>
                   <span className="profile-field-hint">
-                    <i className="fas fa-lock" /> Email cannot be changed
+                    <i className="fas fa-info-circle" /> Update via Edit Profile
                   </span>
                 </div>
-
-                <div className="profile-field">
-                  <label className="profile-field-label">Phone Number</label>
-                  {editing ? (
-                    <input
-                      type="tel"
-                      name="phone"
-                      className="modal-input"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+92 300 1234567"
-                      autoComplete="tel"
-                    />
-                  ) : (
-                    <span className="profile-field-value">{profile.phone || "—"}</span>
-                  )}
-                </div>
               </div>
-
-              {editing && (
-                <div className="profile-edit-actions">
-                  <button
-                    className="btn-modal-secondary"
-                    onClick={() => { setEditing(false); setFormData({ ...profile }); setErrors({}); }}
-                    disabled={loading}
-                  >
-                    Cancel
-                  </button>
-                  <button className="btn-modal-primary" onClick={handleSave} disabled={loading}>
-                    {loading ? <i className="fas fa-circle-notch fa-spin" /> : <i className="fas fa-save" />}
-                    {loading ? "Saving…" : "Save Changes"}
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </div>
       </div>
+
+      {showEditProfile && (
+        <EditProfileModal
+          profile={profile}
+          onClose={() => setShowEditProfile(false)}
+          onSuccess={handleProfileUpdated}
+        />
+      )}
 
       {showChangePw && (
         <ChangePasswordModal

@@ -1,0 +1,107 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.cms.ContactHub.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: UserRepository (com.cms.ContactHub.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$7vHiTFxQ</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$7vHiTFxQ$auxiliary$2zIarXme</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$7vHiTFxQ$auxiliary$FQe3fb6A</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$8N8cR060</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$8N8cR060$auxiliary$EsYHNumx</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$8N8cR060$auxiliary$ltcTafXT</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$bjD0PZlA</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$bjD0PZlA$auxiliary$JtlOzTXK</td>
+  </tr>
+  <tr>
+    <td class="name">UserRepository$MockitoMock$bjD0PZlA$auxiliary$rPm7evNw</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.cms.ContactHub.repository;
+&nbsp;
+&nbsp;import com.cms.ContactHub.entity.Users;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface UserRepository extends JpaRepository&lt;Users, Long&gt; {
+&nbsp;    Optional&lt;Users&gt; findByEmail(String email);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-07-24 02:52</div>
+</div>
+</body>
+</html>

@@ -5,7 +5,7 @@
 .contact-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: .88rem;
+  font-size: 0.88rem;
 }
 .contact-table thead tr {
   background: var(--gray-100);
@@ -13,23 +13,35 @@
 }
 .contact-table th {
   padding: 13px 16px;
-  text-align: left;
+  text-align: center;
   font-family: var(--font-head);
-  font-size: .76rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: var(--gray-600);
   text-transform: uppercase;
-  letter-spacing: .06em;
+  letter-spacing: 0.06em;
   white-space: nowrap;
 }
-.th-actions { text-align: center; }
 
+/* ── ROWS ── */
 .contact-row {
   border-bottom: 1px solid var(--gray-200);
   transition: background var(--transition);
+  text-align: center;
 }
-.contact-row:last-child { border-bottom: none; }
-.contact-row:hover { background: #fef9f8; }
+.contact-row:last-child {
+  border-bottom: none;
+}
+.contact-row:hover {
+  background: #fef9f8;
+}
+/* Fix #12: Favourite row subtle highlight */
+.contact-row--fav {
+  background: #fff9f0;
+}
+.contact-row--fav:hover {
+  background: #fff4e6;
+}
 
 .contact-table td {
   padding: 14px 16px;
@@ -37,7 +49,9 @@
 }
 
 /* Index */
-.td-index { width: 48px; }
+.td-index {
+  width: 48px;
+}
 .row-num {
   display: inline-flex;
   align-items: center;
@@ -46,7 +60,7 @@
   height: 26px;
   background: var(--gray-100);
   border-radius: 6px;
-  font-size: .78rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--gray-600);
 }
@@ -54,6 +68,7 @@
 /* Name */
 .td-name {
   display: flex;
+  justify-content: left;
   align-items: center;
   gap: 12px;
   min-width: 160px;
@@ -66,7 +81,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
@@ -74,6 +89,9 @@
 .contact-fullname {
   font-weight: 600;
   color: var(--dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Email */
@@ -81,17 +99,33 @@
   color: var(--primary);
   text-decoration: none;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.contact-email:hover { text-decoration: underline; }
+.contact-email:hover {
+  text-decoration: underline;
+}
 
 /* Phone / Address */
-.td-phone, .td-address { color: var(--gray-600); }
-.td-address { max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.td-phone,
+.td-address {
+  color: var(--gray-600);
+}
+.td-address {
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* Actions */
 .td-actions {
   text-align: center;
-  width: 90px;
+  white-space: nowrap;
+}
+.td-fav {
+  width: 52px;
 }
 .action-btn {
   display: inline-flex;
@@ -102,12 +136,12 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: .82rem;
+  font-size: 0.82rem;
   transition: all var(--transition);
   margin: 0 3px;
 }
 .action-btn--edit {
-  background: rgba(40,167,69,.1);
+  background: rgba(40, 167, 69, 0.1);
   color: var(--success);
 }
 .action-btn--edit:hover {
@@ -116,13 +150,32 @@
   transform: scale(1.1);
 }
 .action-btn--delete {
-  background: rgba(220,53,69,.1);
+  background: rgba(220, 53, 69, 0.1);
   color: var(--error);
 }
 .action-btn--delete:hover {
   background: var(--error);
   color: #fff;
   transform: scale(1.1);
+}
+
+/* Fix #12: Favourite star button */
+.action-btn--fav {
+  background: rgba(255, 193, 7, 0.08);
+  color: var(--gray-400);
+}
+.action-btn--fav:hover {
+  background: rgba(255, 193, 7, 0.2);
+  color: #f5a623;
+  transform: scale(1.1);
+}
+.action-btn--fav-active {
+  background: rgba(255, 193, 7, 0.15);
+  color: #f5a623;
+}
+.action-btn--fav-active:hover {
+  background: rgba(255, 193, 7, 0.25);
+  color: #e09400;
 }
 
 /* Empty / Loading States */
@@ -135,7 +188,10 @@
   gap: 12px;
   color: var(--gray-400);
 }
-.table-spinner { font-size: 2rem; color: var(--secondary); }
+.table-spinner {
+  font-size: 2rem;
+  color: var(--secondary);
+}
 .table-empty-icon {
   width: 64px;
   height: 64px;
@@ -154,16 +210,33 @@
   margin: 0;
 }
 .table-empty-sub {
-  font-size: .85rem;
+  font-size: 0.85rem;
   color: var(--gray-400);
   margin: 0;
 }
 
-/* ── MOBILE ── */
-@media (max-width: 768px) {
-  .td-address, .td-phone { display: none; }
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .td-address {
+    display: none;
+  }
 }
-@media (max-width: 480px) {
-  .contact-table th, .contact-table td { padding: 11px 10px; }
-  .td-email { display: none; }
+@media (max-width: 768px) {
+  .td-phone {
+    display: none;
+  }
+}
+@media (max-width: 520px) {
+  .contact-table th,
+  .contact-table td {
+    padding: 10px 8px;
+  }
+  .td-email {
+    display: none;
+  }
+  .contact-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.78rem;
+  }
 }

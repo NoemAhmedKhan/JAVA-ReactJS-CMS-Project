@@ -20,6 +20,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtService jwtService;
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -35,7 +36,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
-
         boolean isValid = jwtService.validateToken(token);
 
         if(!isValid) {

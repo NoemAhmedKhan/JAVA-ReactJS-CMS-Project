@@ -2,7 +2,7 @@ import './Footer.css';
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer" id="footer">
       <div className="footer-inner">
         <div className="footer-brand">
           <div className="logo">
@@ -19,9 +19,6 @@ const Footer = () => {
         <div className="footer-items">
           <div className="footer-col">
             <h4>Features</h4>
-            {/* Removed broken hash hrefs — these IDs don't exist on any element.
-                 Replaced with plain spans styled as links, or you can wire
-                 them to scrollToSection() if you lift that helper here. */}
             <span className="footer-link">Smart Contacts</span>
             <span className="footer-link">Group Management</span>
             <span className="footer-link">Instant Search</span>
